@@ -19,9 +19,9 @@ public class ReactorRun extends JPanel implements KeyListener {
     // ── Maze constants ───────────────────────────────────────────
     static final int CELL   = 36;   // pixels per maze cell
     static final int COLS   = 19;
-    static final int ROWS_M = 19;
+    static final int MAZE_ROWS = 19;
     static final int WIN_W  = COLS * CELL + 1;
-    static final int WIN_H  = ROWS_M * CELL + 70;
+    static final int WIN_H  = MAZE_ROWS * CELL + 70;
 
     // Cell types
     static final int WALL   = 1;
@@ -92,9 +92,9 @@ public class ReactorRun extends JPanel implements KeyListener {
     }
 
     void reset() {
-        maze = new int[ROWS_M][COLS];
+        maze = new int[MAZE_ROWS][COLS];
         totalPellets = 0;
-        for (int r = 0; r < ROWS_M; r++)
+        for (int r = 0; r < MAZE_ROWS; r++)
             for (int c = 0; c < COLS; c++) {
                 maze[r][c] = BASE_MAZE[r][c];
                 if (maze[r][c] == PELLET || maze[r][c] == POWER) totalPellets++;
@@ -127,7 +127,7 @@ public class ReactorRun extends JPanel implements KeyListener {
     boolean canMove(int row, int col, int dir) {
         int nr = row + DY[dir];
         int nc = col + DX[dir];
-        if (nr < 0 || nr >= ROWS_M || nc < 0 || nc >= COLS) return false;
+        if (nr < 0 || nr >= MAZE_ROWS || nc < 0 || nc >= COLS) return false;
         return maze[nr][nc] != WALL;
     }
 
@@ -239,7 +239,7 @@ public class ReactorRun extends JPanel implements KeyListener {
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         // Maze
-        for (int r = 0; r < ROWS_M; r++) {
+        for (int r = 0; r < MAZE_ROWS; r++) {
             for (int c = 0; c < COLS; c++) {
                 int cell = maze[r][c];
                 int x = c * CELL, y = r * CELL;
@@ -267,7 +267,7 @@ public class ReactorRun extends JPanel implements KeyListener {
         drawDrone(g2, (int)px, (int)py);
 
         // HUD below maze
-        int hudY = ROWS_M * CELL + 15;
+        int hudY = MAZE_ROWS * CELL + 15;
         g2.setColor(Color.WHITE);
         g2.setFont(new Font("Monospaced", Font.BOLD, 14));
         g2.drawString("REACTOR RUN", 10, hudY);
@@ -316,13 +316,13 @@ public class ReactorRun extends JPanel implements KeyListener {
 
     void drawOverlay(Graphics2D g2, String msg, Color col) {
         g2.setColor(new Color(0, 0, 0, 190));
-        g2.fillRoundRect(30, ROWS_M * CELL / 2 - 40, WIN_W - 60, 90, 16, 16);
+        g2.fillRoundRect(30, MAZE_ROWS * CELL / 2 - 40, WIN_W - 60, 90, 16, 16);
         g2.setColor(col);
         g2.setFont(new Font("Monospaced", Font.BOLD, 18));
-        g2.drawString(msg, 50, ROWS_M * CELL / 2);
+        g2.drawString(msg, 50, MAZE_ROWS * CELL / 2);
         g2.setColor(Color.WHITE);
         g2.setFont(new Font("Monospaced", Font.PLAIN, 13));
-        g2.drawString("Score: " + score + "   Press R to restart", 50, ROWS_M * CELL / 2 + 30);
+        g2.drawString("Score: " + score + "   Press R to restart", 50, MAZE_ROWS * CELL / 2 + 30);
     }
 
     // ── Key handling ─────────────────────────────────────────────

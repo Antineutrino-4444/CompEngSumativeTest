@@ -172,8 +172,9 @@ public class MeltdownClimb extends JPanel implements KeyListener {
             p.x = ladder != null ? ladder[0] : p.x;
             p.vy = jumpPressed ? -3 : 1;   // auto-slide down if not pressing up
             p.vx = 0;
+            if (jumpPressed) score += 1;    // reward climbing
             if (ladder == null || p.y <= ladder[2]) {
-                p.onLadder = false;  // reached top
+                p.onLadder = false;  // reached top of ladder
             }
         }
 
@@ -282,9 +283,6 @@ public class MeltdownClimb extends JPanel implements KeyListener {
         player.reset();
         player.invincibleTicks = 120;
     }
-
-    // Add score periodically
-    void addClimbScore() { score += 10; }
 
     // ── Rendering ────────────────────────────────────────────────
     @Override
